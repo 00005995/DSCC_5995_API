@@ -1,0 +1,26 @@
+version: 0.0
+os: linux
+files:
+  - source: /DSCC_CW1_5995/
+    destination: /var/www/dscc_5995
+  - source: scripts/dscc_5995.conf
+    destination: /etc/httpd/conf.d/
+  - source: scripts/dscc_5995.service
+    destination: /etc/systemd/system/
+
+hooks:
+  ApplicationStop:
+    - location: scripts/stop_service
+      timeout: 300
+      runas: root
+
+  BeforeInstall:
+    - location: scripts/remove_application
+      timeout: 300
+      runas: root
+
+  ApplicationStart:
+    - location: scripts/start_service
+      timeout: 300
+      runas: root
+    
